@@ -1,0 +1,134 @@
+{
+  "normUrl": [
+    [
+      "https://MCP.Acme.dev/mcp/",
+      "mcp.acme.dev/mcp"
+    ],
+    [
+      "https://user:pw@api.x.com/mcp/s/abc123/mcp?key=1#frag",
+      "api.x.com/mcp/s/abc123/mcp"
+    ],
+    [
+      "https://h.example",
+      "h.example"
+    ],
+    [
+      "https://h.example:8443/sse",
+      "h.example:8443/sse"
+    ],
+    [
+      "http://h.example/a//",
+      "h.example/a"
+    ],
+    [
+      "ftp://x.example/a",
+      null
+    ],
+    [
+      "not a url",
+      null
+    ]
+  ],
+  "seed": {
+    "servers": [
+      {
+        "id": "srv-db",
+        "score": 82
+      },
+      {
+        "id": "srv-remote",
+        "score": 75
+      }
+    ],
+    "packages": [
+      [
+        "srv-db",
+        "npm",
+        "@acme/db-mcp",
+        "1.2.0"
+      ],
+      [
+        "srv-remote",
+        "remote",
+        "https://mcp.acme.dev/mcp",
+        null
+      ]
+    ]
+  },
+  "request": {
+    "client": "claude-code",
+    "servers": [
+      {
+        "kind": "npm",
+        "id": "@acme/db-mcp",
+        "version": "1.2.0"
+      },
+      {
+        "kind": "remote",
+        "host": "mcp.acme.dev",
+        "hash": "b747ec4e3ce4d099243e9ea2fe3c7141da52b80a264e392ec6820649b0f295b6"
+      },
+      {
+        "kind": "pypi",
+        "id": "not-listed"
+      }
+    ]
+  },
+  "response": {
+    "checkedAt": "2026-11-18T12:00:00.000Z",
+    "results": [
+      {
+        "index": 0,
+        "level": "ok",
+        "status": "match",
+        "listing": {
+          "owner": "o",
+          "name": "srv-db",
+          "title": "Title srv-db",
+          "url": "https://hostedmcp.org/servers/o/srv-db"
+        },
+        "live": null,
+        "score": 82,
+        "highFails": [],
+        "toolChanges7d": {
+          "added": 0,
+          "changed": 0,
+          "removed": 0
+        },
+        "install": null,
+        "latestVersion": "1.2.0",
+        "archived": false,
+        "notes": []
+      },
+      {
+        "index": 1,
+        "level": "ok",
+        "status": "match",
+        "listing": {
+          "owner": "o",
+          "name": "srv-remote",
+          "title": "Title srv-remote",
+          "url": "https://hostedmcp.org/servers/o/srv-remote"
+        },
+        "live": null,
+        "score": 75,
+        "highFails": [],
+        "toolChanges7d": {
+          "added": 0,
+          "changed": 0,
+          "removed": 0
+        },
+        "install": null,
+        "latestVersion": null,
+        "archived": false,
+        "notes": []
+      },
+      {
+        "index": 2,
+        "level": "ok",
+        "status": "unknown",
+        "notes": []
+      }
+    ]
+  }
+}

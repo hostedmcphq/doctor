@@ -1,0 +1,24 @@
+{
+  "name": "@hosted-mcp/doctor",
+  "version": "0.1.0",
+  "description": "Check the MCP servers you have installed against the HostedMCP directory: down endpoints, failed checks, changed tools, broken installs.",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "hosted-mcp-doctor": "dist/cli.mjs" },
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=20" },
+  "repository": { "type": "git", "url": "https://github.com/hosted-mcp/doctor" },
+  "homepage": "https://hostedmcp.org/doctor",
+  "keywords": ["mcp", "model-context-protocol", "claude-code", "cursor", "security", "doctor"],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "esbuild": "0.24.2",
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
+  }
+}
