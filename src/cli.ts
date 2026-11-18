@@ -4,6 +4,7 @@
  */
 import { homedir } from "node:os";
 import { check } from "./api.js";
+import { isMain } from "./entry.js";
 import { collect } from "./configs.js";
 import { exitCode, link } from "./report.js";
 import type { DoctorResult } from "./types.js";
@@ -49,8 +50,8 @@ export async function main(argv: string[], d: CliDeps): Promise<number> {
   return exitCode(rows.map((r) => r.result));
 }
 
-// Run when executed directly (dist/cli.mjs), not when imported by tests.
-if (process.argv[1] && /cli\.m?js$/.test(process.argv[1])) {
+// Run when executed (dist/cli.mjs, also through npm's bin symlink), not when imported by tests.
+if (isMain(import.meta.url)) {
   main(process.argv.slice(2), { home: homedir(), cwd: process.cwd(), platform: process.platform, env: process.env, print: (s) => console.log(s) }).then(
     (code) => process.exit(code),
     () => process.exit(0),

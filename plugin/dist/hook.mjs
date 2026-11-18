@@ -3,7 +3,7 @@ import { spawn } from "node:child_process";
 import { mkdirSync, readFileSync as readFileSync2, renameSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join as join2 } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath as fileURLToPath2 } from "node:url";
 
 // src/api.ts
 var API = "https://api.hostedmcp.org/v1/doctor";
@@ -237,6 +237,17 @@ function collect(o) {
   return findConfigs(o).filter((c) => !o.client || c.client === o.client).flatMap((c) => readServers(c, o.cwd)).map((s) => ({ client: s.client, name: s.name, item: identify(s.entry) }));
 }
 
+// src/entry.ts
+import { realpathSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+function isMain(metaUrl) {
+  try {
+    return !!process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(metaUrl));
+  } catch {
+    return false;
+  }
+}
+
 // src/report.ts
 var RANK = { ok: 0, info: 1, warn: 2, bad: 3 };
 var MAX_LINES = 3;
@@ -307,8 +318,8 @@ async function refresh(o) {
   cache[o.cwd] = { at: o.now, summary };
   writeCache(o.home, cache);
 }
-var self = fileURLToPath(import.meta.url);
-if (process.argv[1] && fileURLToPath(new URL(`file://${process.argv[1]}`)) === self) {
+var self = fileURLToPath2(import.meta.url);
+if (isMain(import.meta.url)) {
   const home = homedir();
   const env = process.env;
   if (process.argv[2] === "--refresh") {
@@ -324,7 +335,9 @@ if (process.argv[1] && fileURLToPath(new URL(`file://${process.argv[1]}`)) === s
       cwd,
       now: Date.now(),
       env,
-      spawnRefresh: () => spawn(process.execPath, [self, "--refresh", cwd], { detached: true, stdio: "ignore", env }).unref()
+      // An error handler, or a failed spawn would end the hook with a stack trace; windowsHide: no console window.
+      spawnRefresh: () => spawn(process.execPath, [self, "--refresh", cwd], { detached: true, stdio: "ignore", env, windowsHide: true }).on("error", () => {
+      }).unref()
     });
     if (out) process.stdout.write(`${out}
 `);

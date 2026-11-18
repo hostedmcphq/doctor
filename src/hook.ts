@@ -11,6 +11,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { check } from "./api.js";
 import { collect } from "./configs.js";
+import { isMain } from "./entry.js";
 import { summarize, type Summary } from "./report.js";
 
 const DAY = 86400_000;
@@ -102,7 +103,7 @@ export async function refresh(o: RefreshOptions): Promise<void> {
 
 // Entry point (plugin/dist/hook.mjs).
 const self = fileURLToPath(import.meta.url);
-if (process.argv[1] && fileURLToPath(new URL(`file://${process.argv[1]}`)) === self) {
+if (isMain(import.meta.url)) {
   const home = homedir();
   const env = process.env;
   if (process.argv[2] === "--refresh") {
@@ -118,7 +119,8 @@ if (process.argv[1] && fileURLToPath(new URL(`file://${process.argv[1]}`)) === s
       cwd,
       now: Date.now(),
       env,
-      spawnRefresh: () => spawn(process.execPath, [self, "--refresh", cwd], { detached: true, stdio: "ignore", env }).unref(),
+      // An error handler, or a failed spawn would end the hook with a stack trace; windowsHide: no console window.
+      spawnRefresh: () => spawn(process.execPath, [self, "--refresh", cwd], { detached: true, stdio: "ignore", env, windowsHide: true }).on("error", () => {}).unref(),
     });
     if (out) process.stdout.write(`${out}\n`);
   }

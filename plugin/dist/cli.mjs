@@ -39,6 +39,17 @@ async function check(items, o = {}) {
   };
 }
 
+// src/entry.ts
+import { realpathSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+function isMain(metaUrl) {
+  try {
+    return !!process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(metaUrl));
+  } catch {
+    return false;
+  }
+}
+
 // src/configs.ts
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -278,7 +289,7 @@ async function main(argv, d) {
   }
   return exitCode(rows.map((r) => r.result));
 }
-if (process.argv[1] && /cli\.m?js$/.test(process.argv[1])) {
+if (isMain(import.meta.url)) {
   main(process.argv.slice(2), { home: homedir(), cwd: process.cwd(), platform: process.platform, env: process.env, print: (s) => console.log(s) }).then(
     (code) => process.exit(code),
     () => process.exit(0)
