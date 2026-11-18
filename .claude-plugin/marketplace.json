@@ -1,0 +1,15 @@
+{
+  "name": "hosted-mcp",
+  "owner": { "name": "HostedMCP", "url": "https://hostedmcp.org" },
+  "metadata": { "description": "Plugins from HostedMCP, the open directory of MCP servers and agent skills." },
+  "plugins": [
+    {
+      "name": "hostedmcp",
+      "source": "./plugin",
+      "description": "Checks the MCP servers you have installed against hostedmcp.org once a day, and adds the HostedMCP directory as an MCP server.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "homepage": "https://hostedmcp.org/doctor"
+    }
+  ]
+}

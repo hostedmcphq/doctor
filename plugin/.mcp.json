@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "hostedmcp": { "type": "http", "url": "https://api.hostedmcp.org/mcp" }
+  }
+}
