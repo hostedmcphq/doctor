@@ -7,7 +7,7 @@
   "bin": { "hosted-mcp-doctor": "dist/cli.mjs" },
   "files": ["dist", "README.md", "LICENSE"],
   "engines": { "node": ">=20" },
-  "repository": { "type": "git", "url": "https://github.com/hosted-mcp/doctor" },
+  "repository": { "type": "git", "url": "https://github.com/hostedmcphq/doctor" },
   "homepage": "https://hostedmcp.org/doctor",
   "keywords": ["mcp", "model-context-protocol", "claude-code", "cursor", "security", "doctor"],
   "scripts": {

@@ -13,7 +13,7 @@ It also mentions newer versions. When nothing is wrong, it stays quiet.
 ## Claude Code plugin
 
 ```
-/plugin marketplace add hosted-mcp/doctor
+/plugin marketplace add hostedmcphq/doctor
 /plugin install hostedmcp@hosted-mcp
 ```
 

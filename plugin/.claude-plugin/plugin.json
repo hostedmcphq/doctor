@@ -4,7 +4,7 @@
   "description": "HostedMCP Doctor: tells you when an MCP server you use is down, fails a high-severity check, changed its tools or no longer installs. Also connects the HostedMCP directory as an MCP server.",
   "author": { "name": "HostedMCP", "url": "https://hostedmcp.org" },
   "homepage": "https://hostedmcp.org/doctor",
-  "repository": "https://github.com/hosted-mcp/doctor",
+  "repository": "https://github.com/hostedmcphq/doctor",
   "license": "MIT",
   "keywords": ["mcp", "doctor", "security", "directory"]
 }
