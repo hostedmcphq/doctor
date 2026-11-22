@@ -1,0 +1,28 @@
+name: release
+# Publishes to npm when package.json has a version that is not on npm yet. npm Trusted Publishing (OIDC): no token,
+# no one-time password; npmjs.com trusts this repository and this workflow file only.
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@11
+      - run: npm ci
+      - id: version
+        run: |
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          if npm view "$name@$version" version >/dev/null 2>&1; then echo "new=false" >> "$GITHUB_OUTPUT"; else echo "new=true" >> "$GITHUB_OUTPUT"; fi
+          echo "$name@$version"
+      - if: steps.version.outputs.new == 'true'
+        run: npm run typecheck && npm test && npm run build && npm publish --provenance --access public
