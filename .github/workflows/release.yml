@@ -12,10 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # No registry-url: setup-node would write an .npmrc with a placeholder NODE_AUTH_TOKEN, and npm sends that token
+      # instead of exchanging the workflow's OIDC token (publish failed with E404, 22 Nov 2026).
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
       - run: npm install -g npm@11
       - run: npm ci
       - id: version
@@ -25,4 +26,4 @@ jobs:
           if npm view "$name@$version" version >/dev/null 2>&1; then echo "new=false" >> "$GITHUB_OUTPUT"; else echo "new=true" >> "$GITHUB_OUTPUT"; fi
           echo "$name@$version"
       - if: steps.version.outputs.new == 'true'
-        run: npm run typecheck && npm test && npm run build && npm publish --provenance --access public
+        run: npm run typecheck && npm test && npm run build && npm publish --provenance --access public --loglevel verbose
